@@ -30,8 +30,8 @@ def frame_to_timecode(frame_number, fps=24):
     Returns:
         str: Timecode in the format HH:MM:SS:FF
     """
-    total_seconds = int(frame_number // fps)
-    frames = int(frame_number % fps)
+    total_seconds = frame_number // fps
+    frames = frame_number % fps
 
     hours = total_seconds // 3600
     minutes = (total_seconds % 3600) // 60
