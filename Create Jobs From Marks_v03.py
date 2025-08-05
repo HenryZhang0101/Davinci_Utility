@@ -216,10 +216,10 @@ def _exportSub(ev):
                     
                         naming:str = itm['Name'].Text
                         naming = naming.replace(r"%{Marker Name}", marker_name)
-                        naming = naming.replace(r"%{Marker Id}", f"{clip_id+1:03d}")
-                        subtile_path = f"{dir}/{naming}.srt"
+                        naming = naming.replace(r"%{Marker Id}", f"{clip_id:02d}")
+                        subtitle_path = f"{dir}/{naming}.srt"
                     # create srt file
-                        create_srt(subtitle_list, subtile_path, offset)
+                        create_srt(subtitle_list, subtitle_path, offset)
                     
 
 def _createMarker(ev):
