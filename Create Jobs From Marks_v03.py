@@ -157,7 +157,7 @@ def _render(ev):
                     
                     naming:str = itm['Name'].Text
                     naming = naming.replace(r"%{Marker Name}", marker_name)
-                    naming = naming.replace(r"%{Marker Id}", f"{clip_id:03d}")
+                    naming = naming.replace(r"%{Marker Id}", f"{clip_id:02d}")
                     
                     setCurrentRender(inf,outf,dir,naming)
 
