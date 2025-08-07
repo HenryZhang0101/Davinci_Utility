@@ -102,7 +102,6 @@ layout = ui.VGroup({
     ui.VGap(5),
     ui.HGroup({
             "Spacing": 0,
-            "Height": 00,
         }, [
             ui.Label({"Text": "Marker Id Start", "Weight": 0.1}),
             ui.SpinBox({"ID": "spin_1", "Value": 1, "Minimum": 0, "Weight": 0.1})
