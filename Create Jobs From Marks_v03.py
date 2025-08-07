@@ -86,6 +86,7 @@ def choose_directory():
     root.destroy()
     return directory
 
+
 # Define the UI layout
 layout = ui.VGroup({
     "Spacing": 10
@@ -95,9 +96,19 @@ layout = ui.VGroup({
     ui.Label({"Text":"Filename","Weight": 0.1}),
     # ui.ComboBox({"ID": "Name", "Weight": 0.1}),
     ui.LineEdit({"ID": "Name", "PlaceholderText": r"(you can use %{Marker Id} and %{Marker Name})", "Text": r"%{Marker Id}_%{Marker Name}","Weight": 0.1}),
-    ui.CheckBox({"ID": "Offset","Text": "Offset Marker Ending -1", "Weight": 0.1}),
+    
     ui.Label({"Text":"Mark Color","Weight": 0.1}),
     ui.ComboBox({"ID": "color", "Weight": 0.1}),
+    ui.VGap(5),
+    ui.HGroup({
+            "Spacing": 0,
+            "Height": 00,
+        }, [
+            ui.Label({"Text": "Marker Id Start", "Weight": 0.1}),
+            ui.SpinBox({"ID": "spin_1", "Value": 1, "Minimum": 0, "Weight": 0.1})
+        ]),
+    ui.CheckBox({"ID": "Offset","Text": "Offset Marker Ending -1", "Weight": 0.1}),
+    ui.VGap(5),
     ui.Button({"Text": "Add to Render Queue", "ID": "Render", "Weight": 0.1}),
     ui.Button({"Text": "Create Marker", "ID": "createMarker", "Weight": 0.1}),
     ui.Button({"Text": "Export subtitle", "ID": "exportSub", "Weight": 0.1}),
@@ -109,13 +120,14 @@ layout = ui.VGroup({
 
 
 
+
 # Create the window
-win = disp.AddWindow({"WindowTitle": "Create Jobs From Markers", "ID": "MainWindow", "Geometry": [100, 150, 450, 450]}, layout)
+win = disp.AddWindow({"WindowTitle": "Create Jobs From Markers", "ID": "MainWindow", "Geometry": [100, 150, 450, 410]}, layout)
 
 # Access UI elements
 itm = win.GetItems()
 itm['RenderPreset'].AddItems(list(get_render_preset()))
-# itm['Name'].AddItems(["Marker Name", "Custom Name"])
+
 
 colorset = list()
 colorset.append("All")
@@ -134,7 +146,7 @@ def _render(ev):
     
     start = currentTimeline.GetStartFrame()
     dir = choose_directory()
-    clip_id = 0
+    clip_id = itm['spin_1'].Value
     if dir:
         enable = 0
         for marker in markers:
@@ -147,7 +159,7 @@ def _render(ev):
                 else:
                     enable = 0
             if enable == 1:
-                clip_id += 1
+                
                 inf, outf = getMarkRange(markers, marker, start, itm['Offset'].CheckState)
                 print(itm['Offset'].CheckState)
                 print(f"inf: {inf}, outf: {outf}")
@@ -158,6 +170,7 @@ def _render(ev):
                     naming:str = itm['Name'].Text
                     naming = naming.replace(r"%{Marker Name}", marker_name)
                     naming = naming.replace(r"%{Marker Id}", f"{clip_id:02d}")
+                    clip_id += 1
                     
                     setCurrentRender(inf,outf,dir,naming)
 
